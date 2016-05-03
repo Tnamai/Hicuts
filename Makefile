@@ -1,4 +1,4 @@
-# rbtrie をつくる Makefile
+# hicuts をつくる Makefile
 #
 VPATH = src include
 CPPFLAGS = -I include
@@ -6,7 +6,7 @@ CPPFLAGS = -I include
 CC = gcc -g3 -Wall -Wextra -lm
 
 
-hicuts: hicuts.o
+hicuts: hicuts.o io.o
 
 clean:
 	rm *.o

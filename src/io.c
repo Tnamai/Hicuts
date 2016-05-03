@@ -1,6 +1,10 @@
+#include "base.h"
 #include "io.h"
 
 void parseargs(int argc, char *argv[]) {
+  binth = 16;  //
+  spfac = 4;   //この３つは仮の初期値
+  opt = 1;     //
   int	c;
   bool ok = 1;
   while ((c = getopt(argc, argv, "b:s:o:r:t:h")) != -1) {
