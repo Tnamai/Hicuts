@@ -67,3 +67,32 @@ void parseargs(int argc, char *argv[]) {
   */
 }
 
+char makefield(int r,int f,int fb[]){
+  rule R[r+1];
+  int w;
+  int i,j,k;
+  for(i=1;i<r+1;i++){
+    R[i].field=(char**)malloc(f+1);
+    for(j=0;j<f;j++){
+      R[i].field[j]=(char*)malloc(fb[j]+1);
+      for(k=0;k<fb[j];k++){
+	w = fgetc(fpr);
+	//R[i].field[j][k] = &(w);
+	printf("%d\n",w);
+      }
+      fgetc(fpr);
+    }
+  }
+  return *R;
+}
+void Allfree(int r,int f,int fb[],rule R[]){
+  int i,j,k;
+  for(i=1;i<r+1;i++){
+    for(j=0;j<f;j++){
+      for(k=0;k<fb[j];k++){
+	free(R[i].field[j][k]);
+      }
+      free(R[i].field[j]);
+    }
+  }
+}

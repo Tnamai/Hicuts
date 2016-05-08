@@ -1,11 +1,13 @@
 #ifndef __HICUTS_IO_H__
 #define __HICUTS_IO_H__
 
-void parseargs(int,char*[]);
-
 typedef struct rule {
   char** field;
 } rule;
+
+void parseargs(int,char*[]);
+char makefield(int,int,int[]);
+void Allfree(int,int,int[],rule[]);
 
 int binth ;       // leaf threashold
 float spfac ;      // space explosion factor

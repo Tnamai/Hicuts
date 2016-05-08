@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     fields=1,
     rules=0,
     fbit[MAXFIELDS]={'\0'};
+  char *R;
   
   parseargs(argc, argv);
   
@@ -39,20 +40,18 @@ int main(int argc, char *argv[])
     printf("%d,",fbit[i]);
   printf("%d bits\n",fbit[i]);
 
-  //for(i=0;i<fields-1;i++){}
- 
   /* ファイルのクローズ */
   //fprintf( stderr, "Check\n" );
-  // fclose(fpr);
   /*  fclose(fpt);*/
   
-  
-  
+  R = makefield(rules,fields,fbit);
+  // printf("%c\n",*(R[1].field[1][2]));
+  Allfree(R);
+  fclose(fpr);
   rule a;
   char *s = "hoge";
   a.field = &(s);
   printf("%s\n", *(a.field));
  
   return 0;
-
 }
