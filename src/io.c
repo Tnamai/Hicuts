@@ -67,32 +67,55 @@ void parseargs(int argc, char *argv[]) {
   */
 }
 
-char makefield(int r,int f,int fb[]){
-  rule R[r+1];
-  int w;
+rule* makefield(int r,int f,int fb[],FILE *fp){
+  rule *R = (rule*)malloc((r)*sizeof(rule));
+  char w;
   int i,j,k;
-  for(i=1;i<r+1;i++){
-    R[i].field=(char**)malloc(f+1);
+  rewind(fp);
+  for(i=0;i<r;i++){
+    R[i].field=(char**)malloc(f*sizeof(char*));
     for(j=0;j<f;j++){
-      R[i].field[j]=(char*)malloc(fb[j]+1);
+      R[i].field[j]=(char*)malloc(fb[j]*sizeof(char));
       for(k=0;k<fb[j];k++){
-	w = fgetc(fpr);
-	//R[i].field[j][k] = &(w);
-	printf("%d\n",w);
+	do{
+	  w = fgetc(fp);
+	  if(w != 32 && w != 10){
+	    R[i].field[j][k] = w;
+	    //printf("%d,%d,%d,%d,%c\n",i,j,k,w,R[i].field[j][k]);　//確認用
+	    break;
+	  }
+	}while(w == 32 || w == 10);
       }
-      fgetc(fpr);
     }
   }
-  return *R;
+  return R;
 }
-void Allfree(int r,int f,int fb[],rule R[]){
+void printall(int rules,int fields,int fbit[] ,rule* R)
+{
   int i,j,k;
-  for(i=1;i<r+1;i++){
-    for(j=0;j<f;j++){
-      for(k=0;k<fb[j];k++){
-	free(R[i].field[j][k]);
+  for(i=0;i<rules;i++){
+    for(j=0;j<fields;j++){
+      for(k=0;k<fbit[j];k++){
+	printf("%c",R[i].field[j][k]);
       }
+      printf(" ");
+    }
+    printf("\n");
+  }
+}
+
+
+
+
+/*
+void Allfree(int r,int f,int fb[],rule *R){
+  int i,j,k;
+  for(i=0;i<r;i++){
+    for(j=0;j<f;j++){
       free(R[i].field[j]);
     }
+    free(R[i].field);
   }
+  free(R);
 }
+*/

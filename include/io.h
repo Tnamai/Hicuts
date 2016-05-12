@@ -6,8 +6,9 @@ typedef struct rule {
 } rule;
 
 void parseargs(int,char*[]);
-char makefield(int,int,int[]);
-void Allfree(int,int,int[],rule[]);
+rule* makefield(int,int,int[],FILE*);
+//void Allfree(int,int,int[],rule*);
+void printall(int,int,int[],rule*);
 
 int binth ;       // leaf threashold
 float spfac ;      // space explosion factor
