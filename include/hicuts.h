@@ -8,3 +8,8 @@
 #ifndef __HICUTS_IO_H__
 #include <io.h>
 #endif
+/*
+#ifndef __HICUTS_TRI_H__
+#include <tri.h>
+#endif
+*/

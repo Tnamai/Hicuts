@@ -2,60 +2,29 @@
 
 int main(int argc, char *argv[])
 {
-  //FILE *fpr1,*fpt1;
-  char readline[MAXBITS] = {'\0'};
-  char firstline[MAXBITS] = {'\0'};
-  int i=0,
-    fields=1,
-    rules=0,
-    fbit[MAXFIELDS]={'\0'};
-  rule *R;
-  //fpr1 = fpr; //何故か使えない
-  //fpt1 = fpt; 
-  parseargs(argc, argv);
+  rule *R,*T;  //RはRule TはTrace
+  cons r,t;
   
-   while ( fgets(readline, MAXBITS, fpr) != NULL ) {
-    if(rules==0)
-      strcpy(firstline,readline);
-    rules++;
-  }
-  printf("%drules ",rules);
+  parseargs(argc, argv); //オプション引数から読み込み
   
-  while(firstline[i] !='\n'){
-    // printf("%c",firstline[i]); 確認用
-    if(firstline[i] == ' ')
-      fields++;
-    else
-      fbit[fields-1]++;
-    i++;
-  }
-  
-  
-  printf("%dfields\n",fields);
-  printf("fieldrange ");
-  for(i=0;i<fields-1;i++)
-    printf("%d,",fbit[i]);
-  printf("%d bits\n",fbit[i]);
+  r = scalecheck(r,fpr); //ルール数、次元数、各次元の範囲を探索
+  t = scalecheck(t,fpt);
 
-  /* ファイルのクローズ */
-  //fprintf( stderr, "Check\n" );
-  /*  fclose(fpt);*/
- 
-  R = makefield(rules,fields,fbit,fpr);
-  
+  //fprintf( stderr, "Check\n" ); //バグチェック
 
-  // printf("%c\n",*(R[1].field[1][2]));
-  // Allfree(rules,fields,fbit,R);
+  R = makefield(r.rules,r.fields,r.fbit,fpr);//ピッタリの領域確保＆代入
+  T = makefield(t.rules,t.fields,t.fbit,fpt);
 
-  printall(rules,fields,fbit,R);
-   
+  printall(r.rules,r.fields,r.fbit,R);//ファイルと同じ形で出力
+  printf("-------------------------------\n");
+  printall(t.rules,t.fields,t.fbit,T);
+
+  /* メモリ開放 */
   free(R);
-
+  free(T);
+  /* ファイルのクローズ */
   fclose(fpr);
-  rule a;
-  char *s = "hoge";
-  a.field = &(s);
-  printf("%s\n", *(a.field));
+  fclose(fpt);
  
   return 0;
 }

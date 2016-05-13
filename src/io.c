@@ -67,6 +67,40 @@ void parseargs(int argc, char *argv[]) {
   */
 }
 
+cons scalecheck(cons p,FILE *fp){
+  int i;
+  char readline[MAXBITS] = {'\0'};
+  char firstline[MAXBITS] = {'\0'};
+  //p.fbit[MAXFIELDS];
+  p.rules=0;
+  p.fields=1;
+  for(i=0;i<MAXFIELDS;i++)  //宣言時に初期化できないからしぶしぶ
+    p.fbit[i] = 0;
+  i=0;
+  rewind(fp);
+  while ( fgets(readline, MAXBITS, fp) != NULL ) {
+    if(p.rules==0)
+      strcpy(firstline,readline);
+    p.rules++;
+  }
+  printf("%drules ",p.rules);
+
+  while(firstline[i] !='\n'){
+    //printf("%c",firstline[i]);//確認用
+    if(firstline[i] == ' ')
+      p.fields++;
+    else
+      p.fbit[p.fields-1]++;
+    i++;
+  }
+  
+  printf("%dfields\n",p.fields);
+  printf("fieldrange ");
+  for(i=0;i<p.fields-1;i++)
+    printf("%d,",p.fbit[i]);
+  printf("%d bits\n",p.fbit[i]);
+  return  p;
+}
 rule* makefield(int r,int f,int fb[],FILE *fp){
   rule *R = (rule*)malloc((r)*sizeof(rule));
   char w;
@@ -90,13 +124,13 @@ rule* makefield(int r,int f,int fb[],FILE *fp){
   }
   return R;
 }
-void printall(int rules,int fields,int fbit[] ,rule* R)
+void printall(int rules,int fields,int fbit[] ,rule* P)
 {
   int i,j,k;
   for(i=0;i<rules;i++){
     for(j=0;j<fields;j++){
       for(k=0;k<fbit[j];k++){
-	printf("%c",R[i].field[j][k]);
+	printf("%c",P[i].field[j][k]);
       }
       printf(" ");
     }
